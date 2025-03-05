@@ -2,7 +2,8 @@ add_subdirectory(tests)
 
 add_library(
         mp_os_assctv_cntnr_hsh_tbl
-        include/hash_table.h)
+        include/hash_table.h
+        src/hhh.cpp)
 
 target_include_directories(
         mp_os_assctv_cntnr_hsh_tbl

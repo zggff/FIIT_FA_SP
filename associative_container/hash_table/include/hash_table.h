@@ -7,6 +7,7 @@
 #include <logger.h>
 #include <map>
 #include <pp_allocator.h>
+#include <ranges>
 
 // TODO: concept search_ds
 template<typename T, typename tkey, typename tvalue>
@@ -22,12 +23,13 @@ concept search_ds_for = std::same_as<typename T::value_type, std::pair<const tke
 template<typename tkey, typename tvalue, search_ds_for<tkey, tvalue> sds = std::map<tkey, tvalue, std::less<tkey>, pp_allocator<std::pair<const tkey, tvalue>>>, typename hash = std::hash<tkey>>
 class hash_table final
 {
-
+    template< std::ranges::range R >
+    using const_iterator_t = decltype(std::ranges::cbegin(std::declval<R&>()));
 public:
 
     using value_type = std::pair<const tkey, tvalue>;
     using sds_it = std::ranges::iterator_t<sds>;
-    using sds_cit = std::ranges::const_iterator_t<sds>;
+    using sds_cit = const_iterator_t<sds>;
 
 private:
 
@@ -46,8 +48,8 @@ public:
 
     explicit hash_table(pp_allocator<value_type> = pp_allocator<value_type>(), logger* logger = nullptr);
 
-    template<input_iterator_for_pair<tkey, tvalue> iterator>
-    explicit hash_table(iterator begin, iterator end, pp_allocator<value_type> = pp_allocator<value_type>(), logger* logger = nullptr);
+    // template<input_iterator_for_pair<tkey, tvalue> iterator>
+    // explicit hash_table(iterator begin, iterator end, pp_allocator<value_type> = pp_allocator<value_type>(), logger* logger = nullptr);
 
     hash_table(std::initializer_list<std::pair<tkey, tvalue>> data, pp_allocator<value_type> = pp_allocator<value_type>(), logger* logger = nullptr);
 
@@ -254,12 +256,12 @@ hash_table<tkey, tvalue, sds, hash>::hash_table(pp_allocator<value_type> allocat
     throw not_implemented("template<typename tkey, typename tvalue, search_ds_for<tkey, tvalue> sds, typename hash> hash_table<tkey, tvalue, sds, hash>::hash_table(pp_allocator<value_type>, logger*)", "your code should be here...");
 }
 
-template<typename tkey, typename tvalue, search_ds_for<tkey, tvalue> sds, typename hash>
-template<input_iterator_for_pair<tkey, tvalue> iterator>
-hash_table<tkey, tvalue, sds, hash>::hash_table(iterator begin, iterator end, pp_allocator<value_type> allocator, logger* logger)
-{
-    throw not_implemented("template<typename tkey, typename tvalue, search_ds_for<tkey, tvalue> sds, typename hash> template<input_iterator_for_pair<tkey, tvalue> iterator> hash_table<tkey, tvalue, sds, hash>::hash_table(iterator , iterator , pp_allocator<value_type>, logger*)", "your code should be here...");
-}
+// template<typename tkey, typename tvalue, search_ds_for<tkey, tvalue> sds, typename hash>
+// template<input_iterator_for_pair<tkey, tvalue> iterator>
+// hash_table<tkey, tvalue, sds, hash>::hash_table(iterator begin, iterator end, pp_allocator<value_type> allocator, logger* logger)
+// {
+//     throw not_implemented("template<typename tkey, typename tvalue, search_ds_for<tkey, tvalue> sds, typename hash> template<input_iterator_for_pair<tkey, tvalue> iterator> hash_table<tkey, tvalue, sds, hash>::hash_table(iterator , iterator , pp_allocator<value_type>, logger*)", "your code should be here...");
+// }
 
 template<typename tkey, typename tvalue, search_ds_for<tkey, tvalue> sds, typename hash>
 hash_table<tkey, tvalue, sds, hash>::hash_table(std::initializer_list<std::pair<tkey, tvalue>> data, pp_allocator<value_type> allocator, logger* logger)
