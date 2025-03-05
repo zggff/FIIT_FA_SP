@@ -13,7 +13,7 @@
 #define MP_OS_BS_TREE_H
 
 template <typename tkey, typename tvalue, compator<tkey> compare = std::less<tkey>, std::size_t t = 5>
-class BS_tree final : public logger_guardant, private compare
+class BS_tree final : private logger_guardant, private compare
 {
 public:
 
