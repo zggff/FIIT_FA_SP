@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.30 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.25 FATAL_ERROR)
 
 project(mp_os LANGUAGES CXX)
 
@@ -16,14 +16,14 @@ FetchContent_Declare(
         URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip)
 FetchContent_MakeAvailable(googletest)
 
-find_package(nlohmann_json CONFIG REQUIRED)
-find_package(Boost COMPONENTS system container REQUIRED)
-find_package(httplib CONFIG REQUIRED)
-find_package(Crow CONFIG REQUIRED)
+FetchContent_Declare(
+        nlohmann_json
+        GIT_REPOSITORY https://github.com/nlohmann/json.git
+        GIT_TAG v3.11.3
+)
+FetchContent_MakeAvailable(nlohmann_json)
 
-# TODO: server logger tests
-#include_directories (${Boost_INCLUDE_DIRS})
-#link_directories(${Boost_LIBRARY_DIR})
+find_package(Boost COMPONENTS system container REQUIRED) # Ставить через vcpkg
 
 add_subdirectory(allocator)
 add_subdirectory(arithmetic)
