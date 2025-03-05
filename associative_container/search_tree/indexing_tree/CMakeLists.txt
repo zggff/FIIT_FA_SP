@@ -1,0 +1,5 @@
+add_subdirectory(b_plus_tree)
+add_subdirectory(b_star_plus_tree)
+add_subdirectory(b_star_tree)
+add_subdirectory(b_tree)
+add_subdirectory(b_tree_disk)

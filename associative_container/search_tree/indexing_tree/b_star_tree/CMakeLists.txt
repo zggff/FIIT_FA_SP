@@ -1,0 +1,24 @@
+add_subdirectory(tests)
+
+add_library(
+        mp_os_assctv_cntnr_srch_tr_indxng_tr_b_str_tr
+        include/b_star_tree.h
+        src/hhh.cpp)
+
+target_include_directories(
+        mp_os_assctv_cntnr_srch_tr_indxng_tr_b_str_tr
+        PUBLIC
+        ./include)
+
+target_link_libraries(
+        mp_os_assctv_cntnr_srch_tr_indxng_tr_b_str_tr
+        PUBLIC
+        mp_os_lggr_clnt_lggr)
+target_link_libraries(
+        mp_os_assctv_cntnr_srch_tr_indxng_tr_b_str_tr
+        PUBLIC
+        mp_os_assctv_cntnr_srch_tr)
+target_link_libraries(
+        mp_os_assctv_cntnr_srch_tr_indxng_tr_b_str_tr
+        PUBLIC
+        ${BOOST_LIBRARIES})
