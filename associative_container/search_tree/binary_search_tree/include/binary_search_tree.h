@@ -13,6 +13,7 @@
 #include <ranges>
 #include <pp_allocator.h>
 #include <concepts>
+#include <exception>
 
 namespace __detail
 {
