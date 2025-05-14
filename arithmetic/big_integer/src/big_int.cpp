@@ -537,6 +537,14 @@ big_int big_int::operator-(const big_int& other) const
     return result;
 }
 
+big_int big_int::operator-() const
+{
+    big_int result(*this);
+    result._sign = false;
+    return result;
+}
+
+
 big_int big_int::operator*(const big_int& other) const
 {
     big_int result(*this);
