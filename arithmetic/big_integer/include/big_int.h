@@ -109,7 +109,6 @@ public:
      */
     big_int& plus_assign(const big_int& other, size_t shift = 0) &;
 
-
     big_int& operator-=(const big_int& other) &;
 
     big_int& minus_assign(const big_int& other, size_t shift = 0) &;
@@ -137,11 +136,14 @@ public:
     std::strong_ordering operator<=>(const big_int& other) const noexcept;
 
     bool operator==(const big_int& other) const noexcept;
+    bool operator<(const big_int& other) const noexcept;
+    bool operator>(const big_int& other) const noexcept;
+    bool operator<=(const big_int& other) const noexcept;
+    bool operator>=(const big_int& other) const noexcept;
 
     big_int& operator<<=(size_t shift) &;
 
     big_int& operator>>=(size_t shift) &;
-
 
     big_int operator<<(size_t shift) const;
     big_int operator>>(size_t shift) const;
@@ -154,7 +156,6 @@ public:
 
     big_int& operator^=(const big_int& other) &;
 
-
     big_int operator&(const big_int& other) const;
     big_int operator|(const big_int& other) const;
     big_int operator^(const big_int& other) const;
@@ -166,16 +167,47 @@ public:
     std::string to_string() const;
 };
 
+// Реализация шаблонного конструктора из вектора
 template<class alloc>
 big_int::big_int(const std::vector<unsigned int, alloc> &digits, bool sign, pp_allocator<unsigned int> allocator)
+    : _sign(sign), _digits(digits.begin(), digits.end(), allocator)
 {
-    throw not_implemented("template<class alloc> big_int::big_int(const std::vector<unsigned int, alloc> &digits, bool sign, pp_allocator<unsigned int> allocator)", "your code should be here...");
+    if (_digits.empty())
+    {
+        _digits.push_back(0);
+    }
+    // Оптимизация: удаляем ведущие нули
+    while (_digits.size() > 1 && _digits.back() == 0)
+    {
+        _digits.pop_back();
+    }
 }
 
+// Реализация шаблонного конструктора из числа
 template<std::integral Num>
-big_int::big_int(Num d, pp_allocator<unsigned int>)
+big_int::big_int(Num d, pp_allocator<unsigned int> allocator)
+    : _sign(d >= 0), _digits(allocator)
 {
-    throw not_implemented("template<std::integral Num>big_int::big_int(Num, pp_allocator<unsigned int>)", "your code should be here...");
+    unsigned long long abs_d = static_cast<unsigned long long>(d < 0 ? -d : d);
+    _digits.clear();
+    if (abs_d == 0)
+    {
+        _digits.push_back(0);
+    }
+    else
+    {
+        constexpr unsigned long long BASE = 1ULL << (8 * sizeof(unsigned int));
+        while (abs_d > 0)
+        {
+            _digits.push_back(static_cast<unsigned int>(abs_d % BASE));
+            abs_d /= BASE;
+        }
+    }
+    // Оптимизация: удаляем ведущие нули
+    while (_digits.size() > 1 && _digits.back() == 0)
+    {
+        _digits.pop_back();
+    }
 }
 
 big_int operator""_bi(unsigned long long n);
