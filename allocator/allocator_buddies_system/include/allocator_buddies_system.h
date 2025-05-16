@@ -46,6 +46,7 @@ private:
     {
         bool occupied : 1;
         unsigned char size : 7;
+        uint32_t allocator_id : 24;
     };
 
     void *_trusted_memory;
@@ -72,23 +73,23 @@ public:
 
     allocator_buddies_system(
         allocator_buddies_system const &other);
-    
+
     allocator_buddies_system &operator=(
         allocator_buddies_system const &other);
-    
+
     allocator_buddies_system(
         allocator_buddies_system &&other) noexcept;
-    
+
     allocator_buddies_system &operator=(
         allocator_buddies_system &&other) noexcept;
 
     ~allocator_buddies_system() override;
 
 public:
-    
+
     [[nodiscard]] void *do_allocate_sm(
         size_t size) override;
-    
+
     void do_deallocate_sm(
         void *at) override;
 
@@ -102,9 +103,9 @@ public:
 
 private:
 
-    
+
     inline logger *get_logger() const override;
-    
+
     inline std::string get_typename() const override;
 
     std::vector<allocator_test_utils::block_info> get_blocks_info_inner() const override;
@@ -147,7 +148,7 @@ private:
     buddy_iterator begin() const noexcept;
 
     buddy_iterator end() const noexcept;
-    
+
 };
 
 #endif //MATH_PRACTICE_AND_OPERATING_SYSTEMS_ALLOCATOR_ALLOCATOR_BUDDIES_SYSTEM_H
