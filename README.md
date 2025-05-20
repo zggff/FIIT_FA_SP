@@ -3,13 +3,13 @@
 ### FA:
 #### 3:
 - [x] client logger
-- [ ] BST tree
-- [ ] AVL tree
-- [ ] Long int
-- [ ] regular multiplication
-- [ ] karatsuba algorithm
-- [ ] regular division
-- [ ] fraction
+- [x] BST tree
+- [x] AVL tree
+- [x] Long int
+- [x] regular multiplication
+- [x] karatsuba algorithm
+- [x] regular division
+- [x] fraction
 #### 4:
 - [ ] splay tree
 - [ ] red black tree
