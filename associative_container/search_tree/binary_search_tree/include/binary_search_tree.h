@@ -1,18 +1,12 @@
 #ifndef MATH_PRACTICE_AND_OPERATING_SYSTEMS_BINARY_SEARCH_TREE_H
 #define MATH_PRACTICE_AND_OPERATING_SYSTEMS_BINARY_SEARCH_TREE_H
 
-#include <list>
-#include <stack>
-#include <vector>
-#include <memory>
 #include <logger.h>
 #include <logger_guardant.h>
 #include <not_implemented.h>
 #include <search_tree.h>
-#include <stack>
 #include <ranges>
 #include <pp_allocator.h>
-#include <concepts>
 #include <exception>
 
 namespace __detail
