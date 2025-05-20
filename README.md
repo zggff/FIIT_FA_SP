@@ -1,14 +1,49 @@
-<div align="center">
-Посетитель номер:
+# Гига М.Я. M80-213Б-23
 
-![Visitors](https://count.getloli.com/@empty-labs-2courseFiit?name=empty-labs-2courseFiit&theme=booru-qualityhentais&padding=7&offset=0&align=top&scale=1&pixelated=1&darkmode=auto)
+### FA:
+#### 3:
+- [x] client logger
+- [ ] BST tree
+- [ ] AVL tree
+- [ ] Long int
+- [ ] regular multiplication
+- [ ] karatsuba algorithm
+- [ ] regular division
+- [ ] fraction
+#### 4:
+- [ ] splay tree
+- [ ] red black tree
+- [ ] Schönhage-Strassen algorithm
+#### 5:
+- [ ] scapegoat tree
+- [ ] Burnikel Ziegler algorithm
+- [ ] neuton division
+- [ ] hash table
+- [ ] chain fraction
 
-</div>
-
-Для выполнения лабораторных, необходимо вести разработку с использованием github. Соответственно: делаете `fork` (кнопочка сверху), и у вас появляется личная копия репозитория, внутри которого вы и работаете. (Далее, как обычно, его клонируете и можете приступать к работе)
-
-Да прибудет с вами сила.
 
 
+### SP:
+#### 3:
+- [ ] server logger
+- [ ] global allocator
+- [ ] boundary_tags allocator
+- [ ] buddies_system allocator
+- [ ] b-tree
+- [ ] b-tree disk
+- [ ] 1
+- [ ] 2
+- [ ] 7
+#### 4:
+- [ ] 3
+- [ ] 4
+- [ ] 5
+- [ ] 6
+- [ ] sorted_list allocator
+- [ ] rb allocator
+- [ ] B+ -tree
+#### 5:
+- [ ] B* - tree
+- [ ] B*+ - tree
 
-Здесь могла бы быть Ваша реклама =)
+
