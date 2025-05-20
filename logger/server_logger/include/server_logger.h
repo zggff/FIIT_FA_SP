@@ -2,6 +2,7 @@
 #define MATH_PRACTICE_AND_OPERATING_SYSTEMS_SERVER_LOGGER_H
 
 #include <logger.h>
+#include <httplib.h>
 #include <unordered_map>
 // #include <httplib.h>
 
@@ -10,7 +11,7 @@ class server_logger final:
     public logger
 {
 
-    // httplib::Client _client;
+    httplib::Client _client;
 
     server_logger(const std::string& dest, const std::unordered_map<logger::severity ,std::pair<std::string, bool>>& streams);
 
