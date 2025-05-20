@@ -17,17 +17,11 @@ logger& client_logger::log(
     logger::severity severity) &
 {
     try {
-
         auto it = _output_streams.find(severity);
         if (it == _output_streams.end()) return *this;
-
-
         std::string formatted = make_format(text, severity);
-
-
         for (auto &stream : it->second.first)
         {
-
             if (!stream._stream.first.empty() && stream._stream.second)
             {
                 try {
@@ -40,8 +34,6 @@ logger& client_logger::log(
                 }
             }
         }
-
-
         if (it->second.second)
         {
             try {
