@@ -25,15 +25,15 @@
 
 ### SP:
 #### 3:
-- [ ] server logger
-- [ ] global allocator
-- [ ] boundary_tags allocator
-- [ ] buddies_system allocator
-- [ ] b-tree
-- [ ] b-tree disk
-- [ ] 1
-- [ ] 2
-- [ ] 7
+- [x] server logger
+- [x] global allocator
+- [x] boundary_tags allocator
+- [x] buddies_system allocator
+- [x] b-tree
+- [x] b-tree disk
+- [x] 1
+- [x] 2
+- [x] 7
 #### 4:
 - [ ] 3
 - [ ] 4
