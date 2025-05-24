@@ -1,4 +1,5 @@
 find_package(httplib CONFIG REQUIRED)
+find_package(Crow CONFIG REQUIRED)
 
 
 add_executable(
@@ -36,4 +37,9 @@ target_link_libraries(
         serv_test
         PRIVATE
         mp_os_lggr_srvr_lggr)
+target_link_libraries(
+        serv_test
+        PRIVATE
+        Crow::Crow)
+
 
