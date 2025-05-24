@@ -148,17 +148,19 @@ void main_loop(UserList &users) {
     std::string login;
     std::string pin;
     int limit = -1;
-    std::cout << "login: " << std::flush;
-    std::getline(std::cin, login);
-    std::cout << "pin: " << std::flush;
-    std::getline(std::cin, pin);
+    // std::cout << "login: " << std::flush;
+    // std::getline(std::cin, login);
+    // std::cout << "pin: " << std::flush;
+    // std::getline(std::cin, pin);
 
-    try {
-        limit = users.login(login, pin);
-    } catch (std::exception &e) {
-        std::cerr << "ERROR: " << e.what() << std::endl;
-        return;
-    }
+    // try {
+    //     limit = users.login(login, pin);
+    // } catch (std::exception &e) {
+    //     std::cerr << "ERROR: " << e.what() << std::endl;
+    //     return;
+    // }
+    //
+    limit = 10;
 
     while (!std::cin.eof() && limit != 0) {
         std::cout << "> " << std::flush;
@@ -169,12 +171,10 @@ void main_loop(UserList &users) {
         //         std::cout << "'" << tok << "', ";
         // std::cout << "]" << std::endl;
 
-
         if (toks.empty())
             continue;
         if (toks[0] == "Logout")
             return;
-
 
         auto now = std::chrono::system_clock::now();
         auto in_time_t = std::chrono::system_clock::to_time_t(now);
@@ -187,33 +187,50 @@ void main_loop(UserList &users) {
             std::cout << std::put_time(local, "%d:%m:%Y") << std::endl;
         } else if (toks[0] == "Howmuch") {
             if (toks.size() < 2) {
-                std::cout << "date must be provided" << std::endl;
+                std::cout << "date and time must be provided" << std::endl;
                 continue;
             }
-            if (!std::regex_match(toks[1],
-                                  std::regex("\\d{1,2}:\\d{1,2}:\\d{1,4}"))) {
-                std::cout << "date must be in dd:mm:yyyy format" << std::endl;
-                continue;
-            }
-            if (toks.size() < 3) {
-                std::cout << "time must be provided" << std::endl;
-                continue;
-            }
-            if (!std::regex_match(toks[2],
-                                  std::regex("\\d{1,2}:\\d{1,2}:\\d{1,2}"))) {
-                std::cout << "time must be in hh:mm:ss format" << std::endl;
-                continue;
-            }
-            std::stringstream full_time(toks[1] + " " + toks[2]);
+            // Howmuch 24:05:2025 20:34:00
+
+            std::stringstream ss(toks[1] + " " + toks[2]);
             std::tm tm{};
-            full_time >> std::get_time(&tm, "%d:%m:%Y %X");
+
+            ss >> std::get_time(&tm, "%d:%m:%Y %H:%M:%S");
+
+            if (ss.fail()) {
+                std::cout << "invalid date" << std::endl;
+                continue;
+            }
+            int day = tm.tm_mday;
+            int mon = tm.tm_mon;
+            int year = tm.tm_year;
+
             auto t = std::mktime(&tm);
+            auto t_norm = std::localtime(&t);
+            if (t_norm->tm_mday != day || t_norm->tm_mon != mon ||
+                t_norm->tm_year != year) {
+                std::cout << "invalid date" << std::endl;
+                continue;
+            }
+
             auto diff = in_time_t - t; // seconds
-            std::cout << diff << std::endl;
+            // std::cout << diff << std::endl;
 
             if (toks.size() < 4) {
                 std::cout << "output format must be provided" << std::endl;
                 continue;
+            }
+            if (toks[3] == "-s")
+                std::cout << diff << std::endl;
+            else if (toks[3] == "-m")
+                std::cout << diff / 60.0 << std::endl;
+            else if (toks[3] == "-h")
+                std::cout << diff / (60.0 * 60) << std::endl;
+            else if (toks[3] == "-y")
+                std::cout << diff / (60.0 * 60 * 24 * 365) << std::endl;
+            else {
+                std::cout << "ERROR: invalid format: \"" << toks[3] << "\""
+                          << std::endl;
             }
 
         } else if (toks[0] == "Sanctions") {
@@ -278,7 +295,10 @@ int main(int argc, const char **argw) {
     }
     // users.debug();
 
-    while(!std::cin.eof()) {
+    std::cout << std::fixed;
+    std::cout << std::setprecision(2);
+
+    while (!std::cin.eof()) {
         main_loop(users);
     }
 }
