@@ -1,19 +1,12 @@
 #include "../include/fraction.h"
-#include <cmath>
-#include <numeric>
+#include "big_int.h"
 #include <sstream>
 #include <regex>
 
-
 big_int gcd(big_int a, big_int b) {
-    if (a < 0) a = -a;
-    if (b < 0) b = -b;
-    while (b != 0) {
-        big_int t = b;
-        b = a % b;
-        a = t;
-    }
-    return a;
+    if (a == 0)
+        return b;
+    return gcd(b % a, a);
 }
 
 void fraction::optimise() {
@@ -33,7 +26,7 @@ void fraction::optimise() {
     }
 }
 
-template<std::convertible_to<big_int> f, std::convertible_to<big_int> s>
+template <std::convertible_to<big_int> f, std::convertible_to<big_int> s>
 fraction::fraction(f &&numerator, s &&denominator)
     : _numerator(std::forward<f>(numerator)),
       _denominator(std::forward<s>(denominator)) {
@@ -48,7 +41,8 @@ fraction::fraction(const pp_allocator<big_int::value_type> allocator)
 }
 
 fraction &fraction::operator+=(fraction const &other) & {
-    _numerator = _numerator * other._denominator + _denominator * other._numerator;
+    _numerator =
+        _numerator * other._denominator + _denominator * other._numerator;
     _denominator = _denominator * other._denominator;
     optimise();
     return *this;
@@ -61,7 +55,8 @@ fraction fraction::operator+(fraction const &other) const {
 }
 
 fraction &fraction::operator-=(fraction const &other) & {
-    _numerator = _numerator * other._denominator - _denominator * other._numerator;
+    _numerator =
+        _numerator * other._denominator - _denominator * other._numerator;
     _denominator = _denominator * other._denominator;
     optimise();
     return *this;
@@ -113,11 +108,14 @@ bool fraction::operator==(fraction const &other) const noexcept {
     return _numerator == other._numerator && _denominator == other._denominator;
 }
 
-std::partial_ordering fraction::operator<=>(const fraction& other) const noexcept {
+std::partial_ordering
+fraction::operator<=>(const fraction &other) const noexcept {
     big_int lhs = _numerator * other._denominator;
     big_int rhs = _denominator * other._numerator;
-    if (lhs < rhs) return std::partial_ordering::less;
-    if (lhs > rhs) return std::partial_ordering::greater;
+    if (lhs < rhs)
+        return std::partial_ordering::less;
+    if (lhs > rhs)
+        return std::partial_ordering::greater;
     return std::partial_ordering::equivalent;
 }
 
@@ -263,7 +261,8 @@ fraction fraction::root(size_t degree, fraction const &epsilon) const {
         throw std::domain_error("Even root of negative number is not real");
     }
     fraction x = *this;
-    if (x._numerator < 0) x = -x;
+    if (x._numerator < 0)
+        x = -x;
     fraction guess = *this / fraction(degree, 1);
     fraction prev_guess;
     do {
@@ -272,7 +271,8 @@ fraction fraction::root(size_t degree, fraction const &epsilon) const {
         if (power._numerator == 0) {
             throw std::runtime_error("Division by zero in root calculation");
         }
-        guess = (fraction(degree - 1, 1) * guess + *this / power) / fraction(degree, 1);
+        guess = (fraction(degree - 1, 1) * guess + *this / power) /
+                fraction(degree, 1);
     } while ((guess - prev_guess > epsilon) || (prev_guess - guess > epsilon));
     if (_numerator < 0 && degree % 2 == 1) {
         guess = -guess;
@@ -282,7 +282,8 @@ fraction fraction::root(size_t degree, fraction const &epsilon) const {
 
 fraction fraction::log2(fraction const &epsilon) const {
     if (_numerator <= 0 || _denominator <= 0) {
-        throw std::domain_error("Logarithm of non-positive number is undefined");
+        throw std::domain_error(
+            "Logarithm of non-positive number is undefined");
     }
     fraction ln2 = fraction(2, 1).ln(epsilon);
     return this->ln(epsilon) / ln2;
@@ -290,7 +291,8 @@ fraction fraction::log2(fraction const &epsilon) const {
 
 fraction fraction::ln(fraction const &epsilon) const {
     if (_numerator <= 0 || _denominator <= 0) {
-        throw std::domain_error("Natural logarithm of non-positive number is undefined");
+        throw std::domain_error(
+            "Natural logarithm of non-positive number is undefined");
     }
     fraction x = *this;
     if (x > fraction(2, 1)) {
@@ -313,7 +315,8 @@ fraction fraction::ln(fraction const &epsilon) const {
 
 fraction fraction::lg(fraction const &epsilon) const {
     if (_numerator <= 0 || _denominator <= 0) {
-        throw std::domain_error("Base-10 logarithm of non-positive number is undefined");
+        throw std::domain_error(
+            "Base-10 logarithm of non-positive number is undefined");
     }
     fraction ln10 = fraction(10, 1).ln(epsilon);
     return this->ln(epsilon) / ln10;
