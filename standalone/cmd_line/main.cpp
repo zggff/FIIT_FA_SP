@@ -148,28 +148,22 @@ void main_loop(UserList &users) {
     std::string login;
     std::string pin;
     int limit = -1;
-    // std::cout << "login: " << std::flush;
-    // std::getline(std::cin, login);
-    // std::cout << "pin: " << std::flush;
-    // std::getline(std::cin, pin);
+    std::cout << "login: " << std::flush;
+    std::getline(std::cin, login);
+    std::cout << "pin: " << std::flush;
+    std::getline(std::cin, pin);
 
-    // try {
-    //     limit = users.login(login, pin);
-    // } catch (std::exception &e) {
-    //     std::cerr << "ERROR: " << e.what() << std::endl;
-    //     return;
-    // }
-    //
+    try {
+        limit = users.login(login, pin);
+    } catch (std::exception &e) {
+        std::cerr << "ERROR: " << e.what() << std::endl;
+        return;
+    }
     limit = 10;
 
     while (!std::cin.eof() && limit != 0) {
         std::cout << "> " << std::flush;
         auto toks = split();
-
-        // std::cout << "[";
-        // for (auto tok: toks)
-        //         std::cout << "'" << tok << "', ";
-        // std::cout << "]" << std::endl;
 
         if (toks.empty())
             continue;
@@ -256,7 +250,11 @@ void main_loop(UserList &users) {
                 std::cout << "invalid login" << std::endl;
             }
         } else {
-            std::cout << "unknown command" << std::endl;
+            std::cout << "unknown command: '" << toks[0]
+                      << "'. available commands:" << std::endl;
+            std::cout << "'Time' 'Date' 'Howmuch dd:mm:yyyy hh:mm:ss [-s/-m/-h/-y]'"
+                         "'Sanctions <user> <limit>'"
+                      << std::endl;
             continue;
         }
         if (limit > 0)
