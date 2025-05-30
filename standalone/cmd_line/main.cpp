@@ -159,7 +159,6 @@ void main_loop(UserList &users) {
         std::cerr << "ERROR: " << e.what() << std::endl;
         return;
     }
-    limit = 10;
 
     while (!std::cin.eof() && limit != 0) {
         std::cout << "> " << std::flush;
